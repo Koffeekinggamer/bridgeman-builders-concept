@@ -489,6 +489,23 @@ p {
   color: var(--paper);
 }
 
+.bg-forest .eyebrow,
+.bg-forest .kicker {
+  color: var(--stone);
+}
+
+.bg-forest h1,
+.bg-forest h2,
+.bg-forest h3 {
+  color: var(--cream);
+}
+
+.bg-forest .lede,
+.bg-forest .body-lg,
+.bg-forest p {
+  color: rgba(250, 247, 241, 0.9);
+}
+
 .bg-cream {
   background: var(--cream);
 }
