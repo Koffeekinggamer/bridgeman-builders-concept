@@ -990,6 +990,161 @@ footer .wordmark .logo-mark {
   cursor: pointer;
 }
 
+/* Rubber-band photo strip (Buchanan-inspired) */
+.band-section {
+  padding: clamp(3rem, 7vw, 5.5rem) 0 clamp(4rem, 8vw, 6.5rem);
+  overflow: hidden;
+}
+
+.band-intro {
+  padding: 0 var(--pad);
+  margin-bottom: 1.6rem;
+}
+
+.band-rule {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 0 var(--pad);
+  margin: 0 0 2.2rem;
+}
+
+.band-rule span {
+  flex: 1;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.band-rule img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  padding: 8px;
+  background: var(--paper);
+}
+
+.band {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.band.is-dragging {
+  cursor: grabbing;
+}
+
+.band-viewport {
+  overflow: hidden;
+}
+
+.band-track {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  width: max-content;
+  will-change: transform;
+}
+
+.band-track figure {
+  margin: 0;
+  flex: 0 0 auto;
+  height: min(64vh, 560px);
+  position: relative;
+}
+
+.band-track img {
+  height: 100%;
+  width: auto;
+  display: block;
+  pointer-events: none;
+}
+
+.band-track figcaption {
+  position: absolute;
+  left: 0.9rem;
+  bottom: 0.9rem;
+  margin: 0;
+  color: var(--paper);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 0 8px 24px rgba(16, 14, 11, 0.45);
+}
+
+.band-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  background: rgba(250, 247, 241, 0.92);
+  color: var(--ink);
+  cursor: pointer;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+}
+
+.band-arrow::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-left: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.band-arrow.prev {
+  left: clamp(0.6rem, 2vw, 1.6rem);
+}
+
+.band-arrow.prev::before {
+  transform: rotate(45deg);
+  margin-left: 3px;
+}
+
+.band-arrow.next {
+  right: clamp(0.6rem, 2vw, 1.6rem);
+}
+
+.band-arrow.next::before {
+  transform: rotate(-135deg);
+  margin-right: 3px;
+}
+
+.band-hint {
+  margin: 1.1rem var(--pad) 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+@media (max-width: 700px) {
+  .band-track figure {
+    height: min(48vh, 380px);
+  }
+
+  .band-arrow {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .band-viewport {
+    overflow-x: auto;
+  }
+
+  .band-track {
+    transform: none !important;
+  }
+}
+
 /* Utility */
 .mt-s { margin-top: 0.8rem; }
 .mt-m { margin-top: 1.4rem; }

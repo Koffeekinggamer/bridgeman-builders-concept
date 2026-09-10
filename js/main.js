@@ -68,4 +68,106 @@
       if (e.key === "Escape") lightbox.classList.remove("open");
     });
   }
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll("[data-band]").forEach((root) => {
+    const viewport = root.querySelector(".band-viewport");
+    const track = root.querySelector(".band-track");
+    if (!viewport || !track) return;
+
+    const slides = [...track.children];
+    if (!slides.length) return;
+    slides.forEach((node) => track.appendChild(node.cloneNode(true)));
+
+    if (reduceMotion) return;
+
+    let current = 0;
+    let target = 0;
+    let vel = 0;
+    let dragging = false;
+    let lastPointer = 0;
+    let lastTime = 0;
+    let loop = 0;
+    let auto = -0.28;
+    let hovering = false;
+
+    const measure = () => {
+      loop = track.scrollWidth / 2;
+    };
+    measure();
+    window.addEventListener("resize", measure);
+
+    const wrap = () => {
+      if (!loop) return;
+      while (current <= -loop) {
+        current += loop;
+        target += loop;
+      }
+      while (current > 0) {
+        current -= loop;
+        target -= loop;
+      }
+    };
+
+    const step = (dir) => {
+      target += dir * Math.min(viewport.clientWidth * 0.72, 520);
+      vel = dir * 18;
+    };
+
+    const prev = root.querySelector("[data-band-prev]");
+    const next = root.querySelector("[data-band-next]");
+    if (prev) prev.addEventListener("click", () => step(1));
+    if (next) next.addEventListener("click", () => step(-1));
+
+    root.addEventListener("pointerdown", (e) => {
+      if (e.target.closest("button")) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      dragging = true;
+      root.classList.add("is-dragging");
+      lastPointer = e.clientX;
+      lastTime = performance.now();
+      vel = 0;
+      root.setPointerCapture(e.pointerId);
+    });
+
+    root.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const now = performance.now();
+      const dx = e.clientX - lastPointer;
+      const dt = Math.max(8, now - lastTime);
+      target += dx;
+      vel = dx / dt * 16;
+      lastPointer = e.clientX;
+      lastTime = now;
+    });
+
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      root.classList.remove("is-dragging");
+      target += vel * 8;
+    };
+
+    root.addEventListener("pointerup", endDrag);
+    root.addEventListener("pointercancel", endDrag);
+    root.addEventListener("pointerleave", () => {
+      hovering = false;
+    });
+    root.addEventListener("pointerenter", () => {
+      hovering = true;
+    });
+
+    const tick = () => {
+      if (!dragging && !hovering) target += auto;
+      const follow = dragging ? 0.38 : 0.12;
+      const nextPos = current + (target - current) * follow;
+      vel = nextPos - current;
+      current = nextPos;
+      wrap();
+      track.style.transform = `translate3d(${current}px, 0, 0)`;
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
 })();
