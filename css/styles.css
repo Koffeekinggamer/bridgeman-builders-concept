@@ -395,6 +395,18 @@ p {
   align-items: center;
 }
 
+.hero .btn-light {
+  background: rgba(16, 14, 11, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: rgba(244, 239, 230, 0.72);
+}
+
+.hero .btn-light:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
 .hero-meta {
   position: absolute;
   right: var(--pad);
@@ -727,7 +739,7 @@ textarea,
 select {
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--line-strong);
+  border-bottom: 1px solid rgba(22, 20, 16, 0.32);
   padding: 0.45rem 0 0.7rem;
   font-size: 1.02rem;
   color: var(--ink);
@@ -743,7 +755,7 @@ textarea::placeholder {
 
 textarea {
   min-height: 7.5rem;
-  resize: vertical;
+  resize: none;
   line-height: 1.5;
 }
 
@@ -1035,15 +1047,6 @@ hr.quiet {
     display: none;
   }
 
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .hero-actions .btn {
-    justify-content: center;
-  }
-
   .hero-inner {
     max-width: none;
     padding-bottom: 3.5rem;
@@ -1062,6 +1065,26 @@ hr.quiet {
   .ribbon {
     font-size: 0.62rem;
     letter-spacing: 0.1em;
+  }
+}
+
+@media (max-width: 600px) {
+  .eyebrow {
+    letter-spacing: 0.14em;
+    font-size: 0.64rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    justify-content: center;
+  }
+
+  .hero .btn-light {
+    background: rgba(16, 14, 11, 0.55);
   }
 }
 
