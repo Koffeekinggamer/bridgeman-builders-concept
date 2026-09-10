@@ -352,7 +352,7 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 68% 42%;
+  object-position: 50% 48%;
 }
 
 .hero::after {
@@ -1087,7 +1087,7 @@ hr.quiet {
   }
 
   .hero-media img {
-    object-position: 70% 40%;
+    object-position: 52% 42%;
   }
 
   .ribbon {
